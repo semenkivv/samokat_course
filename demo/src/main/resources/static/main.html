@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="table1Div">
+        <table class="tables table1" id="tablee1">
+            <tr>
+                <td>Id</td>
+                <td>RegNumber</td>
+                <td>Mark</td>
+                <td>DateOfBuild</td>
+                <td>Power</td>
+                <td>PhoneNumber</td>
+                <td>ArendDateTime</td>
+                <td>ArendTimer</td>
+            </tr>
+        </table>
+    </div>
+
+    <button class="buttons button1" onclick="operationUrl()">draw</button>
+
+    <label for="operations" class="classOperationsLabel">Choose operation:</label>
+    <select name="operations" id="operations" class="classOperations" onchange="chooseOperation()">
+        <option value="1">Show all</option>
+        <option value="2">Show by id</option>
+        <option value="3">Show by power</option>
+        <option value="4">Show by mark and power</option>
+        <option value="5">Show by reg number</option>
+        <option value="6">Show by power and arend timer</option>
+        <option value="7">Delete by reg number</option>
+        <option value="8">Delete by id</option>
+    </select>
+
+    <input type="hidden" class="inputs inputId" id="inputId" placeholder="Id">
+    <input type="hidden" class="inputs inputPower" id="inputPower" placeholder="Power">
+    <input type="hidden" class="inputs inputMark" id="inputMark" placeholder="Mark">
+    <input type="hidden" class="inputs inputRegNumber" id="inputRegNumber" placeholder="RegNumber">
+    <input type="hidden" class="inputs inputArendTimer" id="inputArendTimer" placeholder="ArendTimer">
+
+    <script>
+        var url = ""
+        function chooseOperation(){
+            var dropDownList = document.getElementById('operations')
+            var value = dropDownList.value
+            switch(value){
+                case '1':
+                    url = "/samokat/all"
+                    document.getElementById('inputId').type = "hidden"
+                    document.getElementById('inputPower').type = "hidden"
+                    document.getElementById('inputMark').type = "hidden"
+                    document.getElementById('inputRegNumber').type = "hidden"
+                    document.getElementById('inputArendTimer').type = "hidden"
+                    break;
+                case '2':
+                    document.getElementById('inputId').type = "text"
+                    document.getElementById('inputPower').type = "hidden"
+                    document.getElementById('inputMark').type = "hidden"
+                    document.getElementById('inputRegNumber').type = "hidden"
+                    document.getElementById('inputArendTimer').type = "hidden"
+                    break;
+                case '3':
+                    document.getElementById('inputId').type = "hidden"
+                    document.getElementById('inputPower').type = "text"
+                    document.getElementById('inputMark').type = "hidden"
+                    document.getElementById('inputRegNumber').type = "hidden"
+                    document.getElementById('inputArendTimer').type = "hidden"
+                    break;
+                case '4':
+                    document.getElementById('inputId').type = "hidden"
+                    document.getElementById('inputPower').type = "text"
+                    document.getElementById('inputMark').type = "text"
+                    document.getElementById('inputRegNumber').type = "hidden"
+                    document.getElementById('inputArendTimer').type = "hidden"
+                    break;
+                case '5':
+                    document.getElementById('inputId').type = "hidden"
+                    document.getElementById('inputPower').type = "hidden"
+                    document.getElementById('inputMark').type = "hidden"
+                    document.getElementById('inputRegNumber').type = "text"
+                    document.getElementById('inputArendTimer').type = "hidden"
+                    break;
+                case '6':
+                    document.getElementById('inputId').type = "hidden"
+                    document.getElementById('inputPower').type = "text"
+                    document.getElementById('inputMark').type = "hidden"
+                    document.getElementById('inputRegNumber').type = "hidden"
+                    document.getElementById('inputArendTimer').type = "text"
+                    break;
+                case '7':
+                    document.getElementById('inputId').type = "hidden"
+                    document.getElementById('inputPower').type = "hidden"
+                    document.getElementById('inputMark').type = "hidden"
+                    document.getElementById('inputRegNumber').type = "text"
+                    document.getElementById('inputArendTimer').type = "hidden"
+                    break;
+                case '8':
+                    document.getElementById('inputId').type = "text"
+                    document.getElementById('inputPower').type = "hidden"
+                    document.getElementById('inputMark').type = "hidden"
+                    document.getElementById('inputRegNumber').type = "hidden"
+                    document.getElementById('inputArendTimer').type = "hidden"
+                    break;
+            }
+        }
+
+        function operationUrl(){
+            var dropDownList = document.getElementById('operations')
+            var value = dropDownList.value
+            switch(value){
+                case '1':
+                    url = "/samokat/all"
+                    break;
+                case '2':
+                    var id = document.getElementById('inputId').value
+                    url = `/samokat/byId/${id}`
+                    break;
+                case '3':
+                    var power = document.getElementById('inputPower').value
+                    url = `/samokat/byPower/${power}`
+                    break;
+                case '4':
+                    var power = document.getElementById('inputPower').value
+                    var mark = document.getElementById('inputMark').value
+                    url = `/samokat/byMarkAndPower/${mark}/${power}`
+                    break;
+                case '5':
+                    var regNumber = document.getElementById('inputRegNumber').value
+                    url = `/samokat/byRegNumber/${regNumber}`
+                    break;
+                case '6':
+                    var power = document.getElementById('inputPower').value
+                    var arendTimer = document.getElementById('inputArendTimer').value
+                    url=`/samokat/byPowerAndArendTimer/${power}/${arendTimer}`
+                    break;
+                case '7':
+                    var regNumber = document.getElementById('inputRegNumber').value
+                    url=`/samokat/${regNumber}/deleteByRegNumber`
+                    break;
+                case '8':
+                    var id = document.getElementById('inputId').value
+                    url=`/samokat/${id}/delete`
+                    break;
+            }
+            drawTable(url)
+        }
+
+        function drawTable(url){
+            var $items = "<tr><td>Id</td><td>RegNumber</td><td>Mark</td><td>DateOfBuild</td><td>Power</td><td>PhoneNumber</td><td>ArendDateTime</td><td>ArendTimer</td></tr>"
+            $("#tablee1").html("").append($items)
+            var json = $.getJSON(url,function(data){
+                    $.each(data, function(i, item){
+                               var $tr = $('<tr>').append(
+                                    $('<td>').text(item.id),
+                                    $('<td>').text(item.regNumber),
+                                    $('<td>').text(item.mark),
+                                    $('<td>').text(item.dateOfBuild),
+                                    $('<td>').text(item.power),
+                                    $('<td>').text(item.phoneNumber),
+                                    $('<td>').text(item.arendDateTime),
+                                    $('<td>').text(item.arendTimer)
+
+                                ).appendTo("#tablee1")
+                    })
+                })
+            
+        }
+    </script>
+</body>
+</html>

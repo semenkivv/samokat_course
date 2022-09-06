@@ -1,0 +1,68 @@
+.table1Div{
+    width: 700px;
+    height: 600px;
+    position: absolute;
+    left:50px;
+    top:50px;
+    overflow-x:hidden;
+    overflow-y: auto;
+}
+
+.table,th,td{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.table1{
+    position: absolute;
+    top: 50px;
+    left:50px;
+}
+
+.button1{
+    position:absolute;
+    left: 775px;
+    top: 175px;
+}
+
+.classOperations{
+    position: absolute;
+    left: 775px;
+    top: 100px;
+}
+
+.classOperationsLabel{
+    position: absolute;
+    left: 775px;
+    top: 80px;
+}
+
+.inputId{
+    position: absolute;
+    left: 775px;
+    top: 125px;
+}
+
+.inputPower{
+    position: absolute;
+    left: 775px;
+    top: 125px;
+}
+
+.inputMark{
+    position: absolute;
+    left: 775px;
+    top: 150px;
+}
+
+.inputRegNumber{
+    position: absolute;
+    left: 775px;
+    top: 125px;
+}
+
+.inputArendTimer{
+    position: absolute;
+    left: 775px;
+    top: 150px;
+}

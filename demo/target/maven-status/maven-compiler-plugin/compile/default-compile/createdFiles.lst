@@ -1,0 +1,6 @@
+com\example\demo\Samokat.class
+com\example\demo\DemoApplication.class
+com\example\demo\SamokatController.class
+com\example\demo\Filters.class
+com\example\demo\SamokatRepository.class
+com\example\demo\LoadDatabase.class
